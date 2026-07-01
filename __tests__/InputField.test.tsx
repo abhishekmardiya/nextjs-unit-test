@@ -6,15 +6,15 @@ describe("InputField", () => {
   const label = "First Name";
   const name = "firstName";
   const placeholder = "John";
-  // jest.fn() --> to create a mock function
-  const handleChange = jest.fn();
 
+  // jest.fn() --> to create a mock function
+  const mockHandleChange = jest.fn();
   const InputFieldElement = (
     <InputField
       label={label}
       name={name}
       value=""
-      onChange={handleChange}
+      onChange={mockHandleChange}
       placeholder={placeholder}
       required
     />
@@ -43,7 +43,7 @@ describe("InputField", () => {
     fireEvent.change(inputElement, { target: { value: "Jane" } });
 
     // toHaveBeenCalledTimes --> to check if the function has been called the number of times specified
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(mockHandleChange).toHaveBeenCalledTimes(1);
   });
 
   it("shows error if required and blurred with empty value", () => {
@@ -63,7 +63,7 @@ describe("InputField", () => {
         label={label}
         name={name}
         value="John"
-        onChange={handleChange}
+        onChange={mockHandleChange}
         placeholder={placeholder}
         required
       />
