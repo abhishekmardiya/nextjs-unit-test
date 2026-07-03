@@ -88,7 +88,11 @@ export const ImageUpload: FC<ImageUploadProps> = ({ handleChange }) => {
           />
         </label>
       </div>
-      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+      {error && (
+        <p data-testid="error-message" className="mt-2 text-sm text-red-500">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
