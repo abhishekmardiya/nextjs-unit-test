@@ -16,7 +16,7 @@ export const TextArea: FC<TextFieldProps> = ({
   value,
   onChange,
   placeholder,
-  maxWords = 50,
+  maxWords = 10,
 }) => {
   const [error, setError] = useState<string | null>(null);
 

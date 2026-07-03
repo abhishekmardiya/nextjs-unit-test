@@ -45,6 +45,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({ handleChange }) => {
 
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith("image/")) {
+      setError(null);
       const syntheticEvent = {
         target: { files: [file] },
       } as unknown as ChangeEvent<HTMLInputElement>;

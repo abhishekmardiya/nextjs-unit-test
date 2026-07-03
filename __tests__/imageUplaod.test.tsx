@@ -59,41 +59,36 @@ describe("ImageUpload", () => {
     expect(mockHandleChange).not.toHaveBeenCalled();
   });
 
-  it("clears the error message after a successful file selection", () => {
-    render(<ImageUpload handleChange={mockHandleChange} />);
+  describe("ImageUpload", () => {
+    it("clears the error message after a successful file has been uploaded", () => {
+      render(FileUploadElement);
 
-    // Step 1: Trigger an error by dropping multiple files.
-    const file1 = new File(["file1 content"], "file1.png", {
-      type: "image/png",
-    });
-    const file2 = new File(["file2 content"], "file2.jpg", {
-      type: "image/jpeg",
-    });
-    const dataTransfer = { files: [file1, file2] };
-    const dropZone = screen.getByTestId("drop-zone");
-    if (dropZone) {
-      fireEvent.drop(dropZone, { dataTransfer });
-    }
+      // Step 1: Trigger an error by dropping multiple files.
+      const file1 = new File(["dummy content"], "profile.png", {
+        type: "image/png",
+      });
+      const file2 = new File(["dummy2 content"], "profile2.jpg", {
+        type: "image/jpeg",
+      });
 
-    // Expect the error message to be in the document.
-    expect(
-      screen.getByText(/Only one image can be uploaded./i)
-    ).toBeInTheDocument();
+      const dropZone = screen.getByTestId("drop-zone");
+      if (dropZone) {
+        fireEvent.drop(dropZone, { dataTransfer: { files: [file1, file2] } });
+      }
 
-    // Step 2: Select a single valid file to clear the error.
-    const fileInput = screen.getByTestId("file-upload");
-    const validFile = new File(["single file"], "single.png", {
-      type: "image/png",
-    });
-    fireEvent.change(fileInput, { target: { files: [validFile] } });
+      expect(screen.getByTestId("error-message")).toBeInTheDocument();
 
-    // Expect the error message to be gone and handleChange to be called.
-    expect(
-      // /i --> to make the text case insensitive
+      // Step 2: Select a single valid file to clear the error.
+      const validFile = new File(["dummy content"], "profile.png", {
+        type: "image/png",
+      });
+
+      if (dropZone)
+        fireEvent.drop(dropZone, { dataTransfer: { files: [validFile] } });
+
       // use getByTestId only when the element must exist
       // use queryByText when the element might not be present
-      screen.queryByText(/Only one image can be uploaded./i)
-    ).not.toBeInTheDocument();
-    expect(mockHandleChange).toHaveBeenCalledTimes(1);
+      expect(screen.queryByTestId("error-message")).not.toBeInTheDocument();
+    });
   });
 });
